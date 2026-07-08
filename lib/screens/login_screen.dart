@@ -11,7 +11,8 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
 
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(18),
         child: Container(
           width: 1450,
           height: 850,
@@ -22,7 +23,7 @@ class LoginScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
 
             border: Border.all(
-              color: Colors.orange,
+              color: Colors.deepOrange,
             ),
           ),
 

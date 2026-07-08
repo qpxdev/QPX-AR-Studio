@@ -75,7 +75,7 @@ class _RightPanelState extends State<RightPanel> {
             const Text(
               "Welcome Back",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.deepOrange,
                 fontSize: 44,
                 fontWeight: FontWeight.bold,
               ),
@@ -106,7 +106,7 @@ class _RightPanelState extends State<RightPanel> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Colors.orange),
+                  borderSide: const BorderSide(color: Colors.deepOrange),
                 ),
               ),
             ),
@@ -140,7 +140,7 @@ class _RightPanelState extends State<RightPanel> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Colors.orange),
+                  borderSide: const BorderSide(color: Colors.deepOrange),
                 ),
               ),
             ),
@@ -152,7 +152,7 @@ class _RightPanelState extends State<RightPanel> {
                 child: const Text(
                   "Forgot Password?",
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.deepOrange,
                     fontSize: 16,
                   ),
                 ),
@@ -165,7 +165,7 @@ class _RightPanelState extends State<RightPanel> {
               child: ElevatedButton(
                 onPressed: signIn,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                  backgroundColor: Colors.deepOrange,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -201,7 +201,7 @@ class _RightPanelState extends State<RightPanel> {
                   child: const Text(
                     "Sign Up",
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: Colors.deepOrange,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),

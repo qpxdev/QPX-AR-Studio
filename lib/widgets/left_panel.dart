@@ -17,53 +17,53 @@ class LeftPanel extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withAlpha((0.72 * 255).round()), 
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(50),      
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Logo
-                Image.asset(
-                  "assets/images/qpx_logo.jpeg",
-                  width: 220,
-                ),
+        // child: Container(
+        //   decoration: BoxDecoration(
+           
+        //   ),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(50),      
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         // Logo
+        //         Image.asset(
+        //           "assets/images/qpx_logo.jpeg",
+        //           width: 220,
+        //         ),
 
-                const SizedBox(height: 30),
+        //         const SizedBox(height: 30),
 
-                // Heading
-                RichText(
-                  text: const TextSpan(
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: [
-                      TextSpan(text: "Create. ", style: TextStyle(color: Colors.white)),
-                      TextSpan(text: "Experience. ", style: TextStyle(color: Colors.white)),
-                      TextSpan(text: "Augment. ", style: TextStyle(color: Colors.orange)),
-                    ],
-                  ),
-                ),
+        //         // Heading
+        //         RichText(
+        //           text: const TextSpan(
+        //             style: TextStyle(
+        //               fontSize: 30,
+        //               fontWeight: FontWeight.bold,
+        //             ),
+        //             children: [
+        //               TextSpan(text: "Create. ", style: TextStyle(color: Colors.white)),
+        //               TextSpan(text: "Experience. ", style: TextStyle(color: Colors.white)),
+        //               TextSpan(text: "Augment. ", style: TextStyle(color: Colors.deepOrange)),
+        //             ],
+        //           ),
+        //         ),
 
-                const SizedBox(height: 30),
+        //         const SizedBox(height: 30),
 
-                const Text(
-                  "QPX AR Studio empowers you to build\n"
-                  "immersive AR experiences with ease.",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 22,
-                    height: 1.6,
-                  ),
-                ),
-              ], // Added missing closing brackets for the Column
-            ),
-          ),
-        ),
+        //         const Text(
+        //           "QPX AR Studio empowers you to build\n"
+        //           "immersive AR experiences with ease.",
+        //           style: TextStyle(
+        //             color: Colors.white70,
+        //             fontSize: 22,
+        //             height: 1.6,
+        //           ),
+        //         ),
+        //       ], // Added missing closing brackets for the Column
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
