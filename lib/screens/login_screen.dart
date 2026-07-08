@@ -14,19 +14,11 @@ class LoginScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(18),
         child: Container(
-          width: 1450,
-          height: 850,
-
+          clipBehavior: Clip.antiAlias, 
           decoration: BoxDecoration(
-            color: const Color(0xff111111),
-
-            borderRadius: BorderRadius.circular(24),
-
-            border: Border.all(
-              color: Colors.deepOrange,
-            ),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: Colors.orange,width: 1.2,),
           ),
-
           child: const Row(
             children: [
 

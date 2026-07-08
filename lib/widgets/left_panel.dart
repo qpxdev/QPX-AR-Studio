@@ -7,11 +7,17 @@ class LeftPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     // 1. Wrap with ClipRRect to force children to respect the rounded corners
     return ClipRRect(
-      borderRadius: BorderRadius.circular(24.0), // Adjust the radius value here
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(30),
+        bottomLeft: Radius.circular(30),
+      ), // Adjust the radius value here
       child: Container(
          decoration: const BoxDecoration(
           // 2. Add borderRadius to the outer container decoration
-          borderRadius: BorderRadius.all(Radius.circular(24.0)), 
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+          ),
           image: DecorationImage(
             image: AssetImage("assets/images/background.jpeg"),
             fit: BoxFit.cover,
