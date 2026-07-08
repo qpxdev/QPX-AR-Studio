@@ -5,60 +5,64 @@ class LeftPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-       decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/background.jpeg"),
-          fit: BoxFit.cover,
-        ),
-      ),
+    // 1. Wrap with ClipRRect to force children to respect the rounded corners
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(24.0), // Adjust the radius value here
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.72), // dark overlay
+         decoration: const BoxDecoration(
+          // 2. Add borderRadius to the outer container decoration
+          borderRadius: BorderRadius.all(Radius.circular(24.0)), 
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.jpeg"),
+            fit: BoxFit.cover,
+          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(50),      
-          child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.black.withAlpha((0.72 * 255).round()), 
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(50),      
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Logo
+                Image.asset(
+                  "assets/images/qpx_logo.jpeg",
+                  width: 220,
+                ),
 
-                  // Logo
-                  Image.asset(
-                    "assets/images/qpx_logo.jpeg",
-                    width: 220,
-                  ),
+                const SizedBox(height: 30),
 
-                  SizedBox(height: 30),
-
-                  // Heading
-                  RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      children: [
-                        TextSpan(text: "Create.\n", style: TextStyle(color: Colors.white)),
-                        TextSpan(text: "Experience.\n", style: TextStyle(color: Colors.white)),
-                        TextSpan(text: "Augment.", style: TextStyle(color: Colors.orange)),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: 30),
-
-                  // ADD THIS HERE
-                  Text(
-                    "QPX AR Studio empowers you to build\n"
-                    "immersive AR experiences with ease.",
+                // Heading
+                RichText(
+                  text: const TextSpan(
                     style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 22,
-                      height: 1.6,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
                     ),
+                    children: [
+                      TextSpan(text: "Create. ", style: TextStyle(color: Colors.white)),
+                      TextSpan(text: "Experience. ", style: TextStyle(color: Colors.white)),
+                      TextSpan(text: "Augment. ", style: TextStyle(color: Colors.orange)),
+                    ],
                   ),
-            ],
-          ), 
+                ),
+
+                const SizedBox(height: 30),
+
+                const Text(
+                  "QPX AR Studio empowers you to build\n"
+                  "immersive AR experiences with ease.",
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 22,
+                    height: 1.6,
+                  ),
+                ),
+              ], // Added missing closing brackets for the Column
+            ),
+          ),
         ),
       ),
     );
