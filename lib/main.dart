@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'widgets/left_panel.dart';
 import 'widgets/signup_form.dart';
-=======
-import 'screens/login_screen.dart';
->>>>>>> a953b9ab1a6560e28ca91bc4995e30d30e6a5390
 
 void main() {
   runApp(const QPXApp());
@@ -18,7 +14,6 @@ class QPXApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'QPX AR Studio',
-<<<<<<< HEAD
       theme: ThemeData(
         brightness: Brightness.dark,
         useMaterial3: true,
@@ -102,10 +97,6 @@ class SignupPage extends StatelessWidget {
           ),
         ),
       ),
-=======
-      theme: ThemeData.dark(),
-      home: const LoginScreen(),
->>>>>>> a953b9ab1a6560e28ca91bc4995e30d30e6a5390
     );
   }
 }
