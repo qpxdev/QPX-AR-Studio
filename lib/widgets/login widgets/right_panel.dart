@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/signup/signup_screen.dart';
+import '../../screens/signup/signup_screen.dart';
 
 const Color orange = Color(0xFFFF5722);
 
