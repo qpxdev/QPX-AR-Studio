@@ -118,15 +118,27 @@ class _RightPanelState extends State<RightPanel> {
                   },
                 ),
                 validator: (value) {
-                  if (value == null || value.length < 8) {
+                  if (value == null || value.isEmpty) {
+                    return 'Password is required';
+                  }
+                  if (value.length < 8) {
                     return 'Minimum 8 characters';
+                  }
+                  if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                    return 'Must contain at least 1 uppercase letter';
+                  }
+                  if (!RegExp(r'[0-9]').hasMatch(value)) {
+                    return 'Must contain at least 1 number';
+                  }
+                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                    return 'Must contain at least 1 special character';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 10),
               const Text(
-                'Use at least 8 characters with letters and numbers.',
+                'Use at least 8 characters with uppercase, numbers, and special characters.',
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
               const SizedBox(height: 25),
@@ -170,6 +182,7 @@ class _RightPanelState extends State<RightPanel> {
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                 ),
@@ -249,7 +262,7 @@ class _LoginField extends StatelessWidget {
             filled: true,
             fillColor: const Color(0xFF1B1B1B),
             contentPadding: const EdgeInsets.symmetric(
-              vertical: 16,
+              vertical: 14,
               horizontal: 18,
             ),
             border: OutlineInputBorder(
@@ -271,6 +284,10 @@ class _LoginField extends StatelessWidget {
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: const BorderSide(color: Colors.red, width: 2),
+            ),
+            errorStyle: const TextStyle(
+              color: Colors.red,
+              fontSize: 12,
             ),
           ),
         ),

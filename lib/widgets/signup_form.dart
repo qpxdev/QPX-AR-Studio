@@ -79,12 +79,12 @@ class _SignupFormState extends State<SignupForm> {
               const Text(
                 "Create Your Account",
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 4),
               RichText(
                 text: const TextSpan(
                   style: TextStyle(
@@ -148,8 +148,20 @@ class _SignupFormState extends State<SignupForm> {
                 icon: Icons.lock_outline,
                 obscureText: _hidePassword,
                 validator: (v) {
-                  if (v == null || v.length < 8) {
+                  if (v == null || v.isEmpty) {
+                    return "Password is required";
+                  }
+                  if (v.length < 8) {
                     return "Minimum 8 characters";
+                  }
+                  if (!RegExp(r'[A-Z]').hasMatch(v)) {
+                    return "Must contain at least 1 uppercase letter";
+                  }
+                  if (!RegExp(r'[0-9]').hasMatch(v)) {
+                    return "Must contain at least 1 number";
+                  }
+                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(v)) {
+                    return "Must contain at least 1 special character";
                   }
                   return null;
                 },
@@ -167,7 +179,7 @@ class _SignupFormState extends State<SignupForm> {
               ),
               const SizedBox(height: 6),
               const Text(
-                "Use at least 8 characters with letters and numbers.",
+                "Use at least 8 characters with uppercase, numbers, and special characters.",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 11,
