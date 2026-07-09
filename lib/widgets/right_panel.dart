@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/signup/signup_screen.dart';
 
 class RightPanel extends StatefulWidget {
   const RightPanel({super.key});
@@ -13,7 +14,10 @@ class _RightPanelState extends State<RightPanel> {
   final TextEditingController passwordController = TextEditingController();
 
   void _goToSignUp() {
-    // Add navigation or logic here
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SignupScreen()),
+    );
   }
 
   // Helper method to display customizable error feedback
