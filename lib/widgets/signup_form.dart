@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import '../screens/login_screen.dart';
+
 const Color orange = Color(0xFFFF5722);
+
 class SignupForm extends StatefulWidget {
   const SignupForm({super.key});
 
@@ -8,8 +11,6 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
-
-
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -75,18 +76,15 @@ class _SignupFormState extends State<SignupForm> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               const Text(
                 "Create Your Account",
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-
-              const SizedBox(height: 6),
-
+              const SizedBox(height: 4),
               RichText(
                 text: const TextSpan(
                   style: TextStyle(
@@ -106,13 +104,9 @@ class _SignupFormState extends State<SignupForm> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 18),
-
               const _FieldLabel("Full Name"),
-
               const SizedBox(height: 6),
-
               _StyledField(
                 controller: _nameController,
                 hint: "Enter your full name",
@@ -124,13 +118,9 @@ class _SignupFormState extends State<SignupForm> {
                   return null;
                 },
               ),
-
               const SizedBox(height: 14),
-
               const _FieldLabel("Email Address"),
-
               const SizedBox(height: 6),
-
               _StyledField(
                 controller: _emailController,
                 hint: "you@example.com",
@@ -141,8 +131,7 @@ class _SignupFormState extends State<SignupForm> {
                     return "Enter email";
                   }
 
-                  if (!RegExp(
-                          r'^[\w\-\.]+@([\w\-]+\.)+[\w]{2,4}$')
+                  if (!RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w]{2,4}$')
                       .hasMatch(v)) {
                     return "Invalid email";
                   }
@@ -150,29 +139,35 @@ class _SignupFormState extends State<SignupForm> {
                   return null;
                 },
               ),
-
               const SizedBox(height: 14),
-
               const _FieldLabel("Password"),
-
               const SizedBox(height: 6),
-
               _StyledField(
                 controller: _passwordController,
                 hint: "Create password",
                 icon: Icons.lock_outline,
                 obscureText: _hidePassword,
                 validator: (v) {
-                  if (v == null || v.length < 8) {
+                  if (v == null || v.isEmpty) {
+                    return "Password is required";
+                  }
+                  if (v.length < 8) {
                     return "Minimum 8 characters";
+                  }
+                  if (!RegExp(r'[A-Z]').hasMatch(v)) {
+                    return "Must contain at least 1 uppercase letter";
+                  }
+                  if (!RegExp(r'[0-9]').hasMatch(v)) {
+                    return "Must contain at least 1 number";
+                  }
+                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(v)) {
+                    return "Must contain at least 1 special character";
                   }
                   return null;
                 },
                 suffix: IconButton(
                   icon: Icon(
-                    _hidePassword
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    _hidePassword ? Icons.visibility_off : Icons.visibility,
                     color: Colors.grey,
                   ),
                   onPressed: () {
@@ -182,23 +177,17 @@ class _SignupFormState extends State<SignupForm> {
                   },
                 ),
               ),
-
               const SizedBox(height: 6),
-
               const Text(
-                "Use at least 8 characters with letters and numbers.",
+                "Use at least 8 characters with uppercase, numbers, and special characters.",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 11,
                 ),
               ),
-
               const SizedBox(height: 14),
-
               const _FieldLabel("Confirm Password"),
-
               const SizedBox(height: 6),
-
               _StyledField(
                 controller: _confirmController,
                 hint: "Confirm password",
@@ -212,9 +201,7 @@ class _SignupFormState extends State<SignupForm> {
                 },
                 suffix: IconButton(
                   icon: Icon(
-                    _hideConfirm
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    _hideConfirm ? Icons.visibility_off : Icons.visibility,
                     color: Colors.grey,
                   ),
                   onPressed: () {
@@ -225,7 +212,6 @@ class _SignupFormState extends State<SignupForm> {
                 ),
               ),
               const SizedBox(height: 16),
-
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -238,7 +224,6 @@ class _SignupFormState extends State<SignupForm> {
                       });
                     },
                   ),
-
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 12),
@@ -272,9 +257,7 @@ class _SignupFormState extends State<SignupForm> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 18),
-
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -307,9 +290,7 @@ class _SignupFormState extends State<SignupForm> {
                         ),
                 ),
               ),
-
               const SizedBox(height: 14),
-
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -322,7 +303,11 @@ class _SignupFormState extends State<SignupForm> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()),
+                        );
                       },
                       child: const Text(
                         "Sign In",
@@ -421,8 +406,8 @@ class _StyledField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(
-           color: Color(0xFFFF5722),
-           width: 2,
+            color: Color(0xFFFF5722),
+            width: 2,
           ),
         ),
         errorBorder: OutlineInputBorder(

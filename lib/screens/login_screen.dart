@@ -9,30 +9,61 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF050505),
+      body: SafeArea(
+        child: Center(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final bool isDesktop = constraints.maxWidth > 900;
 
-      body: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Container(
-          clipBehavior: Clip.antiAlias, 
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: Colors.orange,width: 1.2,),
-          ),
-          child: const Row(
-            children: [
-
-              Expanded(
-                flex: 11,
-                child: LeftPanel(),
-              ),
-
-              Expanded(
-                flex: 9,
-                child: RightPanel(),
-              ),
-
-            ],
+              return Container(
+                width: isDesktop ? 1200 : constraints.maxWidth * 0.95,
+                height: isDesktop ? 700 : constraints.maxHeight * 0.95,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF111111),
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: const Color(0xFFFF5722),
+                    width: 1.5,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFFF5722).withAlpha(64),
+                      blurRadius: 35,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: isDesktop
+                      ? const Row(
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: LeftPanel(),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: RightPanel(),
+                            ),
+                          ],
+                        )
+                      : const Column(
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: LeftPanel(),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: RightPanel(),
+                            ),
+                          ],
+                        ),
+                ),
+              );
+            },
           ),
         ),
       ),
