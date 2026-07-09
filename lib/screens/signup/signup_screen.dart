@@ -1,72 +1,41 @@
 import 'package:flutter/material.dart';
-import 'widgets/left_panel.dart';
-import 'widgets/signup_form.dart';
+import '../../widgets/left_panel.dart';
+import '../../widgets/signup_form.dart';
 
-void main() {
-  runApp(const QPXApp());
-}
-
-class QPXApp extends StatelessWidget {
-  const QPXApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'QPX AR Studio',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFF090909),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFF5722),
-          brightness: Brightness.dark,
-        ),
-      ),
-      home: const SignupPage(),
-    );
-  }
-}
-
-class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF090909),
+      backgroundColor: const Color(0xFF050505),
       body: SafeArea(
         child: Center(
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final bool desktop = constraints.maxWidth >= 950;
+              final bool isDesktop = constraints.maxWidth > 900;
 
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: desktop
-                    ? 1500
-                    : constraints.maxWidth * 0.95,
-                height: desktop
-                    ? 760
-                    : constraints.maxHeight * 0.95,
+              return Container(
+                width: isDesktop ? 1200 : constraints.maxWidth * 0.95,
+                height: isDesktop ? 700 : constraints.maxHeight * 0.95,
                 decoration: BoxDecoration(
                   color: const Color(0xFF111111),
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(30),
                   border: Border.all(
                     color: const Color(0xFFFF5722),
                     width: 1.5,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFFF5722).withValues(alpha: 0.20),
+                      color: const Color(0xFFFF5722).withValues(alpha: 0.25),
                       blurRadius: 35,
                       spreadRadius: 2,
                     ),
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(28),
-                  child: desktop
+                  borderRadius: BorderRadius.circular(30),
+                  child: isDesktop
                       ? const Row(
                           children: [
                             Expanded(
@@ -82,11 +51,11 @@ class SignupPage extends StatelessWidget {
                       : const Column(
                           children: [
                             Expanded(
-                              flex: 5,
+                              flex: 4,
                               child: LeftPanel(),
                             ),
                             Expanded(
-                              flex: 6,
+                              flex: 5,
                               child: SignupForm(),
                             ),
                           ],
