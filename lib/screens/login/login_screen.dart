@@ -10,61 +10,69 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF050505),
-      body: SafeArea(
-        child: Center(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final bool isDesktop = constraints.maxWidth > 900;
+      body: Center(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final bool isDesktop = constraints.maxWidth > 900;
+            final bool isMobilePortrait = constraints.maxWidth <= 600;
+            final bool isMobileLandscape = constraints.maxHeight <= 450;
+            final bool isMobile = isMobilePortrait || isMobileLandscape;
 
-              return Container(
-                width: isDesktop ? 1200 : constraints.maxWidth * 0.95,
-                height: isDesktop ? 700 : constraints.maxHeight * 0.95,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF111111),
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(
-                    color: const Color(0xFFFF5722),
-                    width: 1.5,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFFFF5722).withAlpha(64),
-                      blurRadius: 35,
-                      spreadRadius: 2,
+            final double cardHeight = isDesktop
+                ? 700
+                : isMobile
+                    ? constraints.maxHeight
+                    : constraints.maxHeight * 0.95;
+
+            final double cardWidth = isDesktop
+                ? 1200
+                : isMobile
+                    ? constraints.maxWidth
+                    : constraints.maxWidth * 0.95;
+
+            final double borderRadius = isMobile ? 0 : 30;
+
+            return Container(
+              width: cardWidth,
+              height: cardHeight,
+              decoration: BoxDecoration(
+                color: const Color(0xFF111111),
+                borderRadius: BorderRadius.circular(borderRadius),
+                border: isMobile
+                    ? null
+                    : Border.all(
+                        color: const Color(0xFFFF5722),
+                        width: 1.5,
+                      ),
+                boxShadow: isMobile
+                    ? null
+                    : [
+                        BoxShadow(
+                          color: const Color(0xFFFF5722).withAlpha(64),
+                          blurRadius: 35,
+                          spreadRadius: 2,
+                        ),
+                      ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (!isMobilePortrait)
+                      const Expanded(
+                        flex: 5,
+                        child: LeftPanel(),
+                      ),
+                    Expanded(
+                      flex: isMobilePortrait ? 1 : 4,
+                      child: const RightPanel(),
                     ),
                   ],
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: isDesktop
-                      ? const Row(
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: LeftPanel(),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: RightPanel(),
-                            ),
-                          ],
-                        )
-                      : const Column(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: LeftPanel(),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: RightPanel(),
-                            ),
-                          ],
-                        ),
-                ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

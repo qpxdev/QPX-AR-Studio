@@ -4,7 +4,12 @@ import '../../screens/login/login_screen.dart';
 const Color orange = Color(0xFFFF5722);
 
 class SignupForm extends StatefulWidget {
-  const SignupForm({super.key});
+  final bool isMobile;
+
+  const SignupForm({
+    super.key,
+    this.isMobile = false,
+  });
 
   @override
   State<SignupForm> createState() => _SignupFormState();
@@ -63,177 +68,204 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isSmallHeight = MediaQuery.of(context).size.height <= 600;
+    final bool isTinyHeight = MediaQuery.of(context).size.height <= 450;
+
     return Container(
       color: const Color(0xFF121212),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 40,
-        vertical: 20,
+      padding: EdgeInsets.symmetric(
+        horizontal: isTinyHeight ? 16 : (isSmallHeight ? 24 : 40),
+        vertical: isTinyHeight ? 4 : (isSmallHeight ? 12 : 20),
       ),
       child: Center(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Create Your Account",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 4),
-              RichText(
-                text: const TextSpan(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Create Your Account",
                   style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
+                    fontSize: isTinyHeight ? 14 : (isSmallHeight ? 18 : 24),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
-                  children: [
-                    TextSpan(text: "Join "),
-                    TextSpan(
-                      text: "QPX AR Studio",
+                ),
+                if (!isTinyHeight) ...[
+                  const SizedBox(height: 4),
+                  RichText(
+                    text: const TextSpan(
                       style: TextStyle(
-                        color: orange,
-                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                        fontSize: 14,
                       ),
+                      children: [
+                        TextSpan(text: "Join "),
+                        TextSpan(
+                          text: "QPX AR Studio",
+                          style: TextStyle(
+                            color: orange,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(text: " and start creating today."),
+                      ],
                     ),
-                    TextSpan(text: " and start creating today."),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 18),
-              const _FieldLabel("Full Name"),
-              const SizedBox(height: 6),
-              _StyledField(
-                controller: _nameController,
-                hint: "Enter your full name",
-                icon: Icons.person_outline,
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) {
-                    return "Enter your name";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 14),
-              const _FieldLabel("Email Address"),
-              const SizedBox(height: 6),
-              _StyledField(
-                controller: _emailController,
-                hint: "you@example.com",
-                icon: Icons.mail_outline,
-                keyboardType: TextInputType.emailAddress,
-                validator: (v) {
-                  if (v == null || v.isEmpty) {
-                    return "Enter email";
-                  }
-
-                  if (!RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w]{2,4}$')
-                      .hasMatch(v)) {
-                    return "Invalid email";
-                  }
-
-                  return null;
-                },
-              ),
-              const SizedBox(height: 14),
-              const _FieldLabel("Password"),
-              const SizedBox(height: 6),
-              _StyledField(
-                controller: _passwordController,
-                hint: "Create password",
-                icon: Icons.lock_outline,
-                obscureText: _hidePassword,
-                validator: (v) {
-                  if (v == null || v.isEmpty) {
-                    return "Password is required";
-                  }
-                  if (v.length < 8) {
-                    return "Minimum 8 characters";
-                  }
-                  if (!RegExp(r'[A-Z]').hasMatch(v)) {
-                    return "Must contain at least 1 uppercase letter";
-                  }
-                  if (!RegExp(r'[0-9]').hasMatch(v)) {
-                    return "Must contain at least 1 number";
-                  }
-                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(v)) {
-                    return "Must contain at least 1 special character";
-                  }
-                  return null;
-                },
-                suffix: IconButton(
-                  icon: Icon(
-                    _hidePassword ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _hidePassword = !_hidePassword;
-                    });
+                ],
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 10 : 24)),
+                _FieldLabel("Full Name", isSmallHeight: isSmallHeight),
+                SizedBox(height: isTinyHeight ? 1 : (isSmallHeight ? 3 : 8)),
+                _StyledField(
+                  controller: _nameController,
+                  hint: "Enter your full name",
+                  icon: Icons.person_outline,
+                  isSmallHeight: isSmallHeight,
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) {
+                      return "Enter your name";
+                    }
+                    return null;
                   },
                 ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                "Use at least 8 characters with uppercase, numbers, and special characters.",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 11,
-                ),
-              ),
-              const SizedBox(height: 14),
-              const _FieldLabel("Confirm Password"),
-              const SizedBox(height: 6),
-              _StyledField(
-                controller: _confirmController,
-                hint: "Confirm password",
-                icon: Icons.lock_outline,
-                obscureText: _hideConfirm,
-                validator: (v) {
-                  if (v != _passwordController.text) {
-                    return "Passwords do not match";
-                  }
-                  return null;
-                },
-                suffix: IconButton(
-                  icon: Icon(
-                    _hideConfirm ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _hideConfirm = !_hideConfirm;
-                    });
+                SizedBox(height: isTinyHeight ? 3 : (isSmallHeight ? 6 : 20)),
+                _FieldLabel("Email Address", isSmallHeight: isSmallHeight),
+                SizedBox(height: isTinyHeight ? 1 : (isSmallHeight ? 3 : 8)),
+                _StyledField(
+                  controller: _emailController,
+                  hint: "you@example.com",
+                  icon: Icons.mail_outline,
+                  keyboardType: TextInputType.emailAddress,
+                  isSmallHeight: isSmallHeight,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return "Enter email";
+                    }
+
+                    if (!RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w]{2,4}$')
+                        .hasMatch(v)) {
+                      return "Invalid email";
+                    }
+
+                    return null;
                   },
                 ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Checkbox(
-                    value: _agree,
-                    activeColor: orange,
-                    onChanged: (value) {
+                SizedBox(height: isTinyHeight ? 3 : (isSmallHeight ? 6 : 20)),
+                _FieldLabel("Password", isSmallHeight: isSmallHeight),
+                SizedBox(height: isTinyHeight ? 1 : (isSmallHeight ? 3 : 8)),
+                _StyledField(
+                  controller: _passwordController,
+                  hint: "Create password",
+                  icon: Icons.lock_outline,
+                  obscureText: _hidePassword,
+                  isSmallHeight: isSmallHeight,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return "Password is required";
+                    }
+                    if (v.length < 8) {
+                      return "Minimum 8 characters";
+                    }
+                    if (!RegExp(r'[A-Z]').hasMatch(v)) {
+                      return "Must contain at least 1 uppercase letter";
+                    }
+                    if (!RegExp(r'[0-9]').hasMatch(v)) {
+                      return "Must contain at least 1 number";
+                    }
+                    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(v)) {
+                      return "Must contain at least 1 special character";
+                    }
+                    return null;
+                  },
+                  suffix: GestureDetector(
+                    onTap: () {
                       setState(() {
-                        _agree = value ?? false;
+                        _hidePassword = !_hidePassword;
                       });
                     },
-                  ),
-                  Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 12),
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Icon(
+                        _hidePassword ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                        size: isTinyHeight ? 16 : (isSmallHeight ? 18 : 24),
+                      ),
+                    ),
+                  ),
+                ),
+                if (!isTinyHeight) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    "Use at least 8 characters with uppercase, numbers, and special characters.",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: isSmallHeight ? 9 : 11,
+                    ),
+                  ),
+                ],
+                SizedBox(height: isTinyHeight ? 3 : (isSmallHeight ? 6 : 20)),
+                _FieldLabel("Confirm Password", isSmallHeight: isSmallHeight),
+                SizedBox(height: isTinyHeight ? 1 : (isSmallHeight ? 3 : 8)),
+                _StyledField(
+                  controller: _confirmController,
+                  hint: "Confirm password",
+                  icon: Icons.lock_outline,
+                  obscureText: _hideConfirm,
+                  isSmallHeight: isSmallHeight,
+                  validator: (v) {
+                    if (v != _passwordController.text) {
+                      return "Passwords do not match";
+                    }
+                    return null;
+                  },
+                  suffix: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _hideConfirm = !_hideConfirm;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Icon(
+                        _hideConfirm ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                        size: isTinyHeight ? 16 : (isSmallHeight ? 18 : 24),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 8 : 22)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: isTinyHeight ? 16 : (isSmallHeight ? 20 : 24),
+                      width: isTinyHeight ? 16 : (isSmallHeight ? 20 : 24),
+                      child: Transform.scale(
+                        scale: isTinyHeight ? 0.75 : (isSmallHeight ? 0.85 : 0.95),
+                        child: Checkbox(
+                          value: _agree,
+                          activeColor: orange,
+                          visualDensity: VisualDensity.compact,
+                          onChanged: (value) {
+                            setState(() {
+                              _agree = value ?? false;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: isTinyHeight ? 6 : 8),
+                    Expanded(
                       child: RichText(
-                        text: const TextSpan(
+                        text: TextSpan(
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: 13,
+                            fontSize: isTinyHeight ? 9 : (isSmallHeight ? 11 : 13),
                           ),
-                          children: [
+                          children: const [
                             TextSpan(text: "I agree to the "),
                             TextSpan(
                               text: "Terms of Service",
@@ -254,73 +286,100 @@ class _SignupFormState extends State<SignupForm> {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: _loading ? null : _signup,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: orange,
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: _loading
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Text(
-                          "SIGN UP",
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 14),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Already have an account?",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                        );
-                      },
-                      child: const Text(
-                        "Sign In",
-                        style: TextStyle(
-                          color: orange,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
                   ],
                 ),
-              ),
-            ],
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 10 : 26)),
+                SizedBox(
+                  width: double.infinity,
+                  height: isTinyHeight ? 28 : (isSmallHeight ? 36 : 50),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFF5722), Color(0xFFFF7043)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
+                      boxShadow: isTinyHeight
+                          ? null
+                          : [
+                              BoxShadow(
+                                color: const Color(0xFFFF5722).withValues(alpha: 0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                    ),
+                    child: ElevatedButton(
+                      onPressed: _loading ? null : _signup,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
+                        ),
+                      ),
+                      child: _loading
+                          ? SizedBox(
+                              width: isTinyHeight ? 16 : (isSmallHeight ? 18 : 24),
+                              height: isTinyHeight ? 16 : (isSmallHeight ? 18 : 24),
+                              child: CircularProgressIndicator(
+                                strokeWidth: isTinyHeight ? 1.5 : (isSmallHeight ? 2.0 : 2.5),
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "SIGN UP",
+                              style: TextStyle(
+                                fontSize: isTinyHeight ? 12 : (isSmallHeight ? 14 : 17),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 8 : 20)),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Already have an account?",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: isTinyHeight ? 10 : (isSmallHeight ? 12 : 14),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text(
+                          "Sign In",
+                          style: TextStyle(
+                            color: orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: isTinyHeight ? 10 : (isSmallHeight ? 12 : 14),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -330,17 +389,19 @@ class _SignupFormState extends State<SignupForm> {
 
 class _FieldLabel extends StatelessWidget {
   final String text;
+  final bool isSmallHeight;
 
-  const _FieldLabel(this.text);
+  const _FieldLabel(this.text, {required this.isSmallHeight});
 
   @override
   Widget build(BuildContext context) {
+    final bool isTinyHeight = MediaQuery.of(context).size.height <= 450;
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
-        fontSize: 14,
+        fontSize: isTinyHeight ? 9 : (isSmallHeight ? 11 : 14),
       ),
     );
   }
@@ -354,6 +415,7 @@ class _StyledField extends StatelessWidget {
   final Widget? suffix;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+  final bool isSmallHeight;
 
   const _StyledField({
     required this.controller,
@@ -363,65 +425,83 @@ class _StyledField extends StatelessWidget {
     this.suffix,
     this.keyboardType,
     this.validator,
+    required this.isSmallHeight,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isTinyHeight = MediaQuery.of(context).size.height <= 450;
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
       validator: validator,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
+        fontSize: isTinyHeight ? 12 : (isSmallHeight ? 13 : 15),
       ),
       decoration: InputDecoration(
+        isDense: true,
+        prefixIconConstraints: BoxConstraints(
+          minWidth: isTinyHeight ? 32 : 48,
+          minHeight: 0,
+        ),
+        suffixIconConstraints: BoxConstraints(
+          minWidth: isTinyHeight ? 32 : 48,
+          minHeight: 0,
+        ),
         hintText: hint,
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           color: Colors.grey,
+          fontSize: isTinyHeight ? 11 : (isSmallHeight ? 12 : 14),
         ),
         prefixIcon: Icon(
           icon,
           color: Colors.grey,
+          size: isTinyHeight ? 16 : (isSmallHeight ? 18 : 22),
         ),
         suffixIcon: suffix,
         filled: true,
         fillColor: const Color(0xFF1B1B1B),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 18,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: isTinyHeight ? 5 : (isSmallHeight ? 10 : 14),
+          horizontal: isSmallHeight ? 14 : 18,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
           borderSide: BorderSide(
             color: Colors.grey.shade800,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
           borderSide: BorderSide(
             color: Colors.grey.shade800,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
           borderSide: const BorderSide(
             color: Color(0xFFFF5722),
             width: 2,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
           borderSide: const BorderSide(
             color: Colors.red,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
           borderSide: const BorderSide(
             color: Colors.red,
             width: 2,
           ),
+        ),
+        errorStyle: TextStyle(
+          color: Colors.red,
+          fontSize: isTinyHeight ? 9 : 12,
         ),
       ),
     );

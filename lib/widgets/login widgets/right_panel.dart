@@ -4,7 +4,12 @@ import '../../screens/signup/signup_screen.dart';
 const Color orange = Color(0xFFFF5722);
 
 class RightPanel extends StatefulWidget {
-  const RightPanel({super.key});
+  final bool isMobile;
+
+  const RightPanel({
+    super.key,
+    this.isMobile = false,
+  });
 
   @override
   State<RightPanel> createState() => _RightPanelState();
@@ -58,158 +63,209 @@ class _RightPanelState extends State<RightPanel> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isSmallHeight = MediaQuery.of(context).size.height <= 600;
+    final bool isTinyHeight = MediaQuery.of(context).size.height <= 450;
+
     return Container(
       color: const Color(0xFF121212),
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 28),
+      padding: EdgeInsets.symmetric(
+        horizontal: isTinyHeight ? 16 : (isSmallHeight ? 24 : 40),
+        vertical: isTinyHeight ? 4 : (isSmallHeight ? 12 : 28),
+      ),
       child: Center(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Welcome Back',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Sign in to your QPX AR Studio account',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 30),
-              _LoginField(
-                controller: emailController,
-                label: 'Email Address',
-                hintText: 'you@example.com',
-                icon: Icons.mail_outline,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter email';
-                  }
-                  if (!RegExp(r'^[\w\-.]+@([\w\-]+\.)+[\w]{2,4}$')
-                      .hasMatch(value)) {
-                    return 'Enter a valid email';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 18),
-              _LoginField(
-                controller: passwordController,
-                label: 'Password',
-                hintText: 'Enter your password',
-                icon: Icons.lock_outline,
-                obscureText: hidePassword,
-                suffix: IconButton(
-                  icon: Icon(
-                    hidePassword ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() => hidePassword = !hidePassword);
-                  },
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password is required';
-                  }
-                  if (value.length < 8) {
-                    return 'Minimum 8 characters';
-                  }
-                  if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                    return 'Must contain at least 1 uppercase letter';
-                  }
-                  if (!RegExp(r'[0-9]').hasMatch(value)) {
-                    return 'Must contain at least 1 number';
-                  }
-                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                    return 'Must contain at least 1 special character';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Use at least 8 characters with uppercase, numbers, and special characters.',
-                style: TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-              const SizedBox(height: 25),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: orange,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome Back',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isTinyHeight ? 14 : (isSmallHeight ? 20 : 32),
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton(
-                  onPressed: _loading ? null : _signIn,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: orange,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    elevation: 8,
-                  ),
-                  child: _loading
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.5,
-                          ),
-                        )
-                      : const Text(
-                          'SIGN IN',
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don't have an account?",
+                if (!isTinyHeight) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    'Sign in to your QPX AR Studio account',
                     style: TextStyle(
                       color: Colors.white70,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: _goToSignUp,
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        color: orange,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      fontSize: isSmallHeight ? 12 : 16,
                     ),
                   ),
                 ],
-              ),
-            ],
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 12 : 36)),
+                _LoginField(
+                  controller: emailController,
+                  label: 'Email Address',
+                  hintText: 'you@example.com',
+                  icon: Icons.mail_outline,
+                  isSmallHeight: isSmallHeight,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter email';
+                    }
+                    if (!RegExp(r'^[\w\-.]+@([\w\-]+\.)+[\w]{2,4}$')
+                        .hasMatch(value)) {
+                      return 'Enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 8 : 22)),
+                _LoginField(
+                  controller: passwordController,
+                  label: 'Password',
+                  hintText: 'Enter your password',
+                  icon: Icons.lock_outline,
+                  obscureText: hidePassword,
+                  isSmallHeight: isSmallHeight,
+                  suffix: GestureDetector(
+                    onTap: () {
+                      setState(() => hidePassword = !hidePassword);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Icon(
+                        hidePassword ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                        size: isTinyHeight ? 16 : (isSmallHeight ? 18 : 24),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    }
+                    if (value.length < 8) {
+                      return 'Minimum 8 characters';
+                    }
+                    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                      return 'Must contain at least 1 uppercase letter';
+                    }
+                    if (!RegExp(r'[0-9]').hasMatch(value)) {
+                      return 'Must contain at least 1 number';
+                    }
+                    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                      return 'Must contain at least 1 special character';
+                    }
+                    return null;
+                  },
+                ),
+                if (!isTinyHeight) ...[
+                  SizedBox(height: isSmallHeight ? 4 : 10),
+                  Text(
+                    'Use at least 8 characters with uppercase, numbers, and special characters.',
+                    style: TextStyle(color: Colors.grey, fontSize: isSmallHeight ? 10 : 12),
+                  ),
+                ],
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 2 : 25)),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        color: orange,
+                        fontWeight: FontWeight.bold,
+                        fontSize: isTinyHeight ? 10 : (isSmallHeight ? 12 : 14),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: isTinyHeight ? 6 : (isSmallHeight ? 10 : 28)),
+                SizedBox(
+                  width: double.infinity,
+                  height: isTinyHeight ? 28 : (isSmallHeight ? 38 : 52),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFF5722), Color(0xFFFF7043)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
+                    boxShadow: isTinyHeight
+                        ? null
+                        : [
+                            BoxShadow(
+                              color: const Color(0xFFFF5722).withValues(alpha: 0.3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                    ),
+                    child: ElevatedButton(
+                      onPressed: _loading ? null : _signIn,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
+                        ),
+                      ),
+                      child: _loading
+                          ? SizedBox(
+                              width: isTinyHeight ? 16 : (isSmallHeight ? 18 : 24),
+                              height: isTinyHeight ? 16 : (isSmallHeight ? 18 : 24),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: isTinyHeight ? 1.5 : (isSmallHeight ? 2.0 : 2.5),
+                              ),
+                            )
+                          : Text(
+                              'SIGN IN',
+                              style: TextStyle(
+                                fontSize: isTinyHeight ? 12 : (isSmallHeight ? 14 : 17),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: isTinyHeight ? 4 : (isSmallHeight ? 8 : 22)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: isTinyHeight ? 10 : (isSmallHeight ? 12 : 14),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: _goToSignUp,
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: orange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: isTinyHeight ? 10 : (isSmallHeight ? 12 : 14),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -225,6 +281,7 @@ class _LoginField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffix;
   final String? Function(String?)? validator;
+  final bool isSmallHeight;
 
   const _LoginField({
     required this.controller,
@@ -234,60 +291,73 @@ class _LoginField extends StatelessWidget {
     this.obscureText = false,
     this.suffix,
     this.validator,
+    required this.isSmallHeight,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isTinyHeight = MediaQuery.of(context).size.height <= 450;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w600,
+            fontSize: isTinyHeight ? 9 : (isSmallHeight ? 12 : 14),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: isTinyHeight ? 1 : (isSmallHeight ? 4 : 8)),
         TextFormField(
           controller: controller,
           obscureText: obscureText,
           validator: validator,
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: isTinyHeight ? 12 : (isSmallHeight ? 13 : 15)),
           decoration: InputDecoration(
+            isDense: true,
+            prefixIconConstraints: BoxConstraints(
+              minWidth: isTinyHeight ? 32 : 48,
+              minHeight: 0,
+            ),
+            suffixIconConstraints: BoxConstraints(
+              minWidth: isTinyHeight ? 32 : 48,
+              minHeight: 0,
+            ),
             hintText: hintText,
-            hintStyle: const TextStyle(color: Colors.grey),
-            prefixIcon: Icon(icon, color: Colors.grey),
+            hintStyle: TextStyle(color: Colors.grey, fontSize: isTinyHeight ? 11 : (isSmallHeight ? 12 : 14)),
+            prefixIcon: Icon(icon, color: Colors.grey, size: isTinyHeight ? 16 : (isSmallHeight ? 18 : 22)),
             suffixIcon: suffix,
             filled: true,
             fillColor: const Color(0xFF1B1B1B),
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 14,
-              horizontal: 18,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: isTinyHeight ? 5 : (isSmallHeight ? 10 : 14),
+              horizontal: isSmallHeight ? 14 : 18,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
               borderSide: BorderSide(color: Colors.grey.shade800),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
               borderSide: BorderSide(color: Colors.grey.shade800),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
               borderSide: const BorderSide(color: orange, width: 2),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
               borderSide: const BorderSide(color: Colors.red),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(isTinyHeight ? 8 : (isSmallHeight ? 10 : 14)),
               borderSide: const BorderSide(color: Colors.red, width: 2),
             ),
-            errorStyle: const TextStyle(
+            errorStyle: TextStyle(
               color: Colors.red,
-              fontSize: 12,
+              fontSize: isTinyHeight ? 9 : (isSmallHeight ? 10 : 12),
             ),
           ),
         ),
