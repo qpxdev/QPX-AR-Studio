@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../screens/signup/signup_screen.dart';
+import '../../screens/dashboard/dashboard_screen.dart';
 
 const Color orange = Color(0xFFFF5722);
 
@@ -52,11 +53,9 @@ class _RightPanelState extends State<RightPanel> {
     Future.delayed(const Duration(seconds: 1), () {
       if (!mounted) return;
       setState(() => _loading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Signed in successfully'),
-          backgroundColor: Colors.green,
-        ),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const DashboardScreen()),
       );
     });
   }

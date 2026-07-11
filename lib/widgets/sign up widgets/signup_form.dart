@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../screens/login/login_screen.dart';
+import '../../screens/dashboard/dashboard_screen.dart';
 
 const Color orange = Color(0xFFFF5722);
 
@@ -58,11 +59,9 @@ class _SignupFormState extends State<SignupForm> {
 
     setState(() => _loading = false);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        backgroundColor: Colors.green,
-        content: Text("Account created successfully"),
-      ),
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const DashboardScreen()),
     );
   }
 
