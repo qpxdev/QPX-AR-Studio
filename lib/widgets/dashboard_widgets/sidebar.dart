@@ -11,6 +11,71 @@ class Sidebar extends StatelessWidget {
     required this.onToggleExpanded,
   });
 
+  void _showUpgradeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.card,
+          title: const Row(
+            children: [
+              Icon(Icons.workspace_premium, color: Colors.amber, size: 24),
+              SizedBox(width: 8),
+              Text('Upgrade to Professional', style: TextStyle(color: Colors.white, fontSize: 16)),
+            ],
+          ),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Unlock everything you need to create immersive AR experiences:', style: TextStyle(color: Colors.white70, fontSize: 13)),
+              SizedBox(height: 12),
+              Row(
+                children: [
+                  Icon(Icons.check_circle, color: AppColors.green, size: 16),
+                  SizedBox(width: 8),
+                  Text('Unlimited AR projects', style: TextStyle(color: Colors.white, fontSize: 12)),
+                ],
+              ),
+              SizedBox(height: 6),
+              Row(
+                children: [
+                  Icon(Icons.check_circle, color: AppColors.green, size: 16),
+                  SizedBox(width: 8),
+                  Text('50 GB Cloud Storage (currently 12 GB)', style: TextStyle(color: Colors.white, fontSize: 12)),
+                ],
+              ),
+              SizedBox(height: 6),
+              Row(
+                children: [
+                  Icon(Icons.check_circle, color: AppColors.green, size: 16),
+                  SizedBox(width: 8),
+                  Text('Premium GLTF/USDZ templates', style: TextStyle(color: Colors.white, fontSize: 12)),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Maybe Later', style: TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Successfully upgraded to Professional Plan! 🎉')),
+                );
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.amber.shade700),
+              child: const Text('Upgrade Now', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _navItem(BuildContext context, {required IconData icon, required String label, required bool selected, required bool isCompact}) {
     return Material(
       color: selected ? AppColors.accent.withValues(alpha: 0.15) : Colors.transparent,
@@ -56,11 +121,7 @@ class Sidebar extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Upgrade plan coming soon!')),
-                );
-              },
+              onPressed: () => _showUpgradeDialog(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.accent, 
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -84,9 +145,11 @@ class Sidebar extends StatelessWidget {
     return Container(
       width: isCompact ? 70 : 240,
       color: AppColors.panel,
-      padding: EdgeInsets.symmetric(
-        horizontal: isCompact ? 8 : 16,
-        vertical: 16,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 16,
+        bottom: 16,
+        left: isCompact ? 8 : 16,
+        right: isCompact ? 8 : 16,
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -126,7 +189,28 @@ class Sidebar extends StatelessWidget {
                     const SizedBox(height: 8),
                     _navItem(context, icon: Icons.folder, label: 'Projects', selected: false, isCompact: isCompact),
                     const Spacer(),
-                    if (!isCompact && !isSmallHeight) _upgradeCard(context),
+                    if (!isCompact && !isSmallHeight) 
+                      _upgradeCard(context)
+                    else
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Tooltip(
+                          message: 'Upgrade Plan',
+                          child: InkWell(
+                            onTap: () => _showUpgradeDialog(context),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.amber.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.amber.shade700, width: 1),
+                              ),
+                              child: const Icon(Icons.workspace_premium, color: Colors.amber, size: 22),
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),

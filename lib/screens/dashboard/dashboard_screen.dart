@@ -63,56 +63,58 @@ class _DashboardScreenState extends State<DashboardScreen> {
             return AlertDialog(
               backgroundColor: AppColors.card,
               title: const Text('Create New Project', style: TextStyle(color: Colors.white)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Project Name', style: TextStyle(color: Colors.white70, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: nameController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'Enter project name...',
-                      hintStyle: const TextStyle(color: Colors.grey),
-                      filled: true,
-                      fillColor: const Color(0xFF222222),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text('Template Type', style: TextStyle(color: Colors.white70, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF222222),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: projectType,
-                        dropdownColor: AppColors.card,
-                        style: const TextStyle(color: Colors.white),
-                        iconEnabledColor: Colors.white,
-                        isExpanded: true,
-                        items: const [
-                          DropdownMenuItem(value: 'AR Scene', child: Text('AR Scene')),
-                          DropdownMenuItem(value: 'Image Target', child: Text('Image Target')),
-                          DropdownMenuItem(value: '3D Model', child: Text('3D Model')),
-                        ],
-                        onChanged: (val) {
-                          if (val != null) {
-                            setDialogState(() {
-                              projectType = val;
-                            });
-                          }
-                        },
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Project Name', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: nameController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'Enter project name...',
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        filled: true,
+                        fillColor: const Color(0xFF222222),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    const Text('Template Type', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF222222),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: projectType,
+                          dropdownColor: AppColors.card,
+                          style: const TextStyle(color: Colors.white),
+                          iconEnabledColor: Colors.white,
+                          isExpanded: true,
+                          items: const [
+                            DropdownMenuItem(value: 'AR Scene', child: Text('AR Scene')),
+                            DropdownMenuItem(value: 'Image Target', child: Text('Image Target')),
+                            DropdownMenuItem(value: '3D Model', child: Text('3D Model')),
+                          ],
+                          onChanged: (val) {
+                            if (val != null) {
+                              setDialogState(() {
+                                projectType = val;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               actions: [
                 TextButton(
@@ -160,43 +162,51 @@ class _DashboardScreenState extends State<DashboardScreen> {
             return AlertDialog(
               backgroundColor: AppColors.card,
               title: const Text('Settings', style: TextStyle(color: Colors.white)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SwitchListTile(
-                    title: const Text('Cloud Sync', style: TextStyle(color: Colors.white, fontSize: 14)),
-                    subtitle: const Text('Automatically sync projects to cloud', style: TextStyle(color: Colors.grey, fontSize: 11)),
-                    value: cloudSync,
-                    activeThumbColor: AppColors.accent,
-                    onChanged: (val) {
-                      setDialogState(() {
-                        cloudSync = val;
-                      });
-                    },
-                  ),
-                  SwitchListTile(
-                    title: const Text('Developer Mode', style: TextStyle(color: Colors.white, fontSize: 14)),
-                    subtitle: const Text('Enable advanced AR debugging tools', style: TextStyle(color: Colors.grey, fontSize: 11)),
-                    value: devMode,
-                    activeThumbColor: AppColors.accent,
-                    onChanged: (val) {
-                      setDialogState(() {
-                        devMode = val;
-                      });
-                    },
-                  ),
-                  SwitchListTile(
-                    title: const Text('Usage Analytics', style: TextStyle(color: Colors.white, fontSize: 14)),
-                    subtitle: const Text('Help us improve QPX AR Studio', style: TextStyle(color: Colors.grey, fontSize: 11)),
-                    value: analytics,
-                    activeThumbColor: AppColors.accent,
-                    onChanged: (val) {
-                      setDialogState(() {
-                        analytics = val;
-                      });
-                    },
-                  ),
-                ],
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SwitchListTile(
+                      title: const Text('Cloud Sync', style: TextStyle(color: Colors.white, fontSize: 14)),
+                      subtitle: const Text('Automatically sync projects to cloud', style: TextStyle(color: Colors.grey, fontSize: 11)),
+                      value: cloudSync,
+                      activeThumbColor: AppColors.accent,
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (val) {
+                        setDialogState(() {
+                          cloudSync = val;
+                        });
+                      },
+                    ),
+                    SwitchListTile(
+                      title: const Text('Developer Mode', style: TextStyle(color: Colors.white, fontSize: 14)),
+                      subtitle: const Text('Enable advanced AR debugging tools', style: TextStyle(color: Colors.grey, fontSize: 11)),
+                      value: devMode,
+                      activeThumbColor: AppColors.accent,
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (val) {
+                        setDialogState(() {
+                          devMode = val;
+                        });
+                      },
+                    ),
+                    SwitchListTile(
+                      title: const Text('Usage Analytics', style: TextStyle(color: Colors.white, fontSize: 14)),
+                      subtitle: const Text('Help us improve QPX AR Studio', style: TextStyle(color: Colors.grey, fontSize: 11)),
+                      value: analytics,
+                      activeThumbColor: AppColors.accent,
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (val) {
+                        setDialogState(() {
+                          analytics = val;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
               actions: [
                 TextButton(
@@ -243,41 +253,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                 ],
               ),
-              content: notifications.isEmpty
-                  ? const SizedBox(
-                      height: 100,
-                      child: Center(
-                        child: Text('No new notifications', style: TextStyle(color: Colors.grey)),
+              content: SingleChildScrollView(
+                child: notifications.isEmpty
+                    ? const SizedBox(
+                        height: 100,
+                        child: Center(
+                          child: Text('No new notifications', style: TextStyle(color: Colors.grey)),
+                        ),
+                      )
+                    : SizedBox(
+                        width: 320,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: notifications.map((item) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(item['title']!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+                                      Text(item['time']!, style: const TextStyle(color: Colors.grey, fontSize: 10)),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(item['body']!, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                                  const Divider(color: Color(0xFF27272A)),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    )
-                  : SizedBox(
-                      width: 320,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: notifications.length,
-                        separatorBuilder: (_, __) => Divider(color: Colors.grey.shade800),
-                        itemBuilder: (context, index) {
-                          final item = notifications[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(item['title']!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
-                                    Text(item['time']!, style: const TextStyle(color: Colors.grey, fontSize: 10)),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Text(item['body']!, style: const TextStyle(color: Colors.white70, fontSize: 12)),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+              ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
@@ -292,58 +302,62 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _showProfileDialog(BuildContext context) {
+    final bool isSmallHeight = MediaQuery.of(context).size.height <= 500;
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           backgroundColor: AppColors.card,
           title: const Text('My Profile', style: TextStyle(color: Colors.white)),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircleAvatar(
-                radius: 36,
-                backgroundColor: AppColors.panel,
-                child: Icon(Icons.person, color: AppColors.accent, size: 40),
-              ),
-              const SizedBox(height: 12),
-              const Text('Varun', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-              const Text('varun@qpxarstudio.com', style: TextStyle(color: Colors.grey, fontSize: 12)),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.amber.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.amber.shade700, width: 1),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: isSmallHeight ? 24 : 36,
+                  backgroundColor: AppColors.panel,
+                  child: Icon(Icons.person, color: AppColors.accent, size: isSmallHeight ? 26 : 40),
                 ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
+                SizedBox(height: isSmallHeight ? 6 : 12),
+                Text('Varun', style: TextStyle(color: Colors.white, fontSize: isSmallHeight ? 15 : 18, fontWeight: FontWeight.bold)),
+                Text('varun@qpxarstudio.com', style: TextStyle(color: Colors.grey, fontSize: isSmallHeight ? 10 : 12)),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.amber.shade700, width: 1),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('👑 '),
+                      Text('Professional Plan', style: TextStyle(color: Colors.amber, fontSize: 11, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: isSmallHeight ? 10 : 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('👑 ', style: TextStyle(fontSize: 10)),
-                    Text('Professional Plan', style: TextStyle(color: Colors.amber, fontSize: 11, fontWeight: FontWeight.bold)),
+                    Text('Cloud Storage', style: TextStyle(color: Colors.white70, fontSize: isSmallHeight ? 10 : 12)),
+                    Text('12.4 GB / 50 GB', style: TextStyle(color: Colors.grey, fontSize: isSmallHeight ? 9 : 11)),
                   ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Cloud Storage', style: TextStyle(color: Colors.white70, fontSize: 12)),
-                  Text('12.4 GB / 50 GB', style: TextStyle(color: Colors.grey, fontSize: 11)),
-                ],
-              ),
-              const SizedBox(height: 6),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: const LinearProgressIndicator(
-                  value: 12.4 / 50.0,
-                  backgroundColor: Color(0xFF222222),
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.accent),
-                  minHeight: 6,
+                const SizedBox(height: 6),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: const LinearProgressIndicator(
+                    value: 12.4 / 50.0,
+                    backgroundColor: Color(0xFF222222),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.accent),
+                    minHeight: 6,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             Row(
@@ -387,14 +401,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double screenWidth = MediaQuery.of(context).size.width;
-        final int crossAxisCount = screenWidth > 900 ? 3 : (screenWidth > 600 ? 2 : 1);
+        final int crossAxisCount = screenWidth > 600 ? 3 : 2;
+        final double childAspectRatio = screenWidth > 900 ? 0.95 : 1.0;
+
         return GridView.count(
           crossAxisCount: crossAxisCount,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 0.9,
+          childAspectRatio: childAspectRatio,
           children: filtered.map((project) {
             return ProjectCard(
               image: project['image']!,
@@ -450,112 +466,113 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bg,
-      body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Sidebar(
-              isCompact: !_isSidebarExpanded!,
-              onToggleExpanded: () {
-                setState(() {
-                  _isSidebarExpanded = !_isSidebarExpanded!;
-                });
-              },
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: SingleChildScrollView(
-                  child: Column(
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Sidebar(
+            isCompact: !_isSidebarExpanded!,
+            onToggleExpanded: () {
+              setState(() {
+                _isSidebarExpanded = !_isSidebarExpanded!;
+              });
+            },
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 24,
+                left: 24,
+                right: 24,
+                bottom: MediaQuery.of(context).padding.bottom + 24,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TopBar(
+                    onSearchChanged: (query) {
+                      setState(() {
+                        _searchQuery = query;
+                      });
+                    },
+                    notificationCount: _notificationCount,
+                    onNotificationsTap: () => _showNotificationsDialog(context),
+                    onSettingsTap: () => _showSettingsDialog(context),
+                    onProfileTap: () => _showProfileDialog(context),
+                  ),
+                  const SizedBox(height: 24),
+                  
+                  // Stat cards rendered horizontally in horizontal scroll view on narrow viewports
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: statCardWidth,
+                          child: const StatCard(icon: Icons.folder, label: 'Total Projects', value: '24', change: '12%', iconColor: AppColors.accent),
+                        ),
+                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: statCardWidth,
+                          child: const StatCard(icon: Icons.view_in_ar, label: 'AR Scenes', value: '58', change: '18%', iconColor: Colors.blueAccent),
+                        ),
+                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: statCardWidth,
+                          child: const StatCard(icon: Icons.qr_code_scanner, label: 'Image Targets', value: '36', change: '8%', iconColor: AppColors.green),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  
+                  // Main panels displayed side-by-side on all screens
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TopBar(
-                        onSearchChanged: (query) {
-                          setState(() {
-                            _searchQuery = query;
-                          });
-                        },
-                        notificationCount: _notificationCount,
-                        onNotificationsTap: () => _showNotificationsDialog(context),
-                        onSettingsTap: () => _showSettingsDialog(context),
-                        onProfileTap: () => _showProfileDialog(context),
-                      ),
-                      const SizedBox(height: 24),
-                      
-                      // Stat cards rendered horizontally in horizontal scroll view on narrow viewports
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
+                      Expanded(
+                        flex: isMobileWidth ? 2 : 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              width: statCardWidth,
-                              child: const StatCard(icon: Icons.folder, label: 'Total Projects', value: '24', change: '12%', iconColor: AppColors.accent),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Recent Projects', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
+                                TextButton(
+                                  onPressed: () {},
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: const Text('View all', style: TextStyle(color: AppColors.accent, fontSize: 14)),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 16),
-                            SizedBox(
-                              width: statCardWidth,
-                              child: const StatCard(icon: Icons.view_in_ar, label: 'AR Scenes', value: '58', change: '18%', iconColor: Colors.blueAccent),
-                            ),
-                            const SizedBox(width: 16),
-                            SizedBox(
-                              width: statCardWidth,
-                              child: const StatCard(icon: Icons.qr_code_scanner, label: 'Image Targets', value: '36', change: '8%', iconColor: AppColors.green),
-                            ),
+                            const SizedBox(height: 12),
+                            _buildRecentProjectsGrid(),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 24),
-                      
-                      // Main panels displayed side-by-side on all screens
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: isMobileWidth ? 2 : 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text('Recent Projects', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
-                                    TextButton(
-                                      onPressed: () {},
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: Size.zero,
-                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      child: const Text('View all', style: TextStyle(color: AppColors.accent, fontSize: 14)),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                _buildRecentProjectsGrid(),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: isMobileWidth ? 12 : 24),
-                          Expanded(
-                            flex: isMobileWidth ? 1 : 1,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('Quick Actions', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
-                                const SizedBox(height: 12),
-                                _buildQuickActionsList(isMobileWidth),
-                              ],
-                            ),
-                          ),
-                        ],
+                      SizedBox(width: isMobileWidth ? 12 : 24),
+                      Expanded(
+                        flex: isMobileWidth ? 1 : 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Quick Actions', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 12),
+                            _buildQuickActionsList(isMobileWidth),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
