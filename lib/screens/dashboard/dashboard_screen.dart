@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../core/app_colors.dart';
 import '../../widgets/dashboard_widgets/sidebar.dart';
+import '../project_page/project_page_screen.dart' show ProjectPageScreen;
 import '../../widgets/dashboard_widgets/top_bar.dart';
 import '../../widgets/dashboard_widgets/stat_card.dart';
 import '../../widgets/dashboard_widgets/project_card.dart';
 import '../../widgets/dashboard_widgets/quick_action_card.dart';
-import '../login/login_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -301,89 +301,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  void _showProfileDialog(BuildContext context) {
-    final bool isSmallHeight = MediaQuery.of(context).size.height <= 500;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: AppColors.card,
-          title: const Text('My Profile', style: TextStyle(color: Colors.white)),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  radius: isSmallHeight ? 24 : 36,
-                  backgroundColor: AppColors.panel,
-                  child: Icon(Icons.person, color: AppColors.accent, size: isSmallHeight ? 26 : 40),
-                ),
-                SizedBox(height: isSmallHeight ? 6 : 12),
-                Text('Varun', style: TextStyle(color: Colors.white, fontSize: isSmallHeight ? 15 : 18, fontWeight: FontWeight.bold)),
-                Text('varun@qpxarstudio.com', style: TextStyle(color: Colors.grey, fontSize: isSmallHeight ? 10 : 12)),
-                const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.amber.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.amber.shade700, width: 1),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('👑 '),
-                      Text('Professional Plan', style: TextStyle(color: Colors.amber, fontSize: 11, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-                SizedBox(height: isSmallHeight ? 10 : 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Cloud Storage', style: TextStyle(color: Colors.white70, fontSize: isSmallHeight ? 10 : 12)),
-                    Text('12.4 GB / 50 GB', style: TextStyle(color: Colors.grey, fontSize: isSmallHeight ? 9 : 11)),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: const LinearProgressIndicator(
-                    value: 12.4 / 50.0,
-                    backgroundColor: Color(0xFF222222),
-                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.accent),
-                    minHeight: 6,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                    );
-                  },
-                  child: const Text('Log Out', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close', style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            )
-          ],
-        );
-      },
-    );
-  }
-
   Widget _buildRecentProjectsGrid() {
     final filtered = _filteredProjects;
 
@@ -470,11 +387,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Sidebar(
+            selectedIndex: 0,
             isCompact: !_isSidebarExpanded!,
             onToggleExpanded: () {
               setState(() {
                 _isSidebarExpanded = !_isSidebarExpanded!;
               });
+            },
+            onSelect: (i) {
+              if (i == 1) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProjectPageScreen()),
+                );
+              }
             },
           ),
           Expanded(
@@ -497,7 +423,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     notificationCount: _notificationCount,
                     onNotificationsTap: () => _showNotificationsDialog(context),
                     onSettingsTap: () => _showSettingsDialog(context),
-                    onProfileTap: () => _showProfileDialog(context),
                   ),
                   const SizedBox(height: 24),
                   

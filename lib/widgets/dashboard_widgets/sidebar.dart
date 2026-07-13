@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import '../../core/app_colors.dart';
 
 class Sidebar extends StatelessWidget {
+  final int selectedIndex;
   final bool isCompact;
   final VoidCallback onToggleExpanded;
+  final ValueChanged<int> onSelect;
 
   const Sidebar({
     super.key,
+    required this.selectedIndex,
     required this.isCompact,
     required this.onToggleExpanded,
+    required this.onSelect,
   });
 
   void _showUpgradeDialog(BuildContext context) {
@@ -76,13 +80,13 @@ class Sidebar extends StatelessWidget {
     );
   }
 
-  Widget _navItem(BuildContext context, {required IconData icon, required String label, required bool selected, required bool isCompact}) {
+  Widget _navItem(BuildContext context, {required IconData icon, required String label, required bool selected, required bool isCompact, VoidCallback? onTap}) {
     return Material(
       color: selected ? AppColors.accent.withValues(alpha: 0.15) : Colors.transparent,
       borderRadius: BorderRadius.circular(10),
       child: isCompact
           ? InkWell(
-              onTap: () {},
+              onTap: onTap,
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 width: 50,
@@ -92,7 +96,7 @@ class Sidebar extends StatelessWidget {
               ),
             )
           : ListTile(
-              onTap: () {},
+              onTap: onTap,
               leading: Icon(icon, color: selected ? AppColors.accent : AppColors.textGrey, size: 20),
               title: Text(
                 label, 
@@ -185,9 +189,23 @@ class Sidebar extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 32),
-                    _navItem(context, icon: Icons.dashboard, label: 'Dashboard', selected: true, isCompact: isCompact),
+                    _navItem(
+                      context, 
+                      icon: Icons.dashboard, 
+                      label: 'Dashboard', 
+                      selected: selectedIndex == 0, 
+                      isCompact: isCompact, 
+                      onTap: () => onSelect(0),
+                    ),
                     const SizedBox(height: 8),
-                    _navItem(context, icon: Icons.folder, label: 'Projects', selected: false, isCompact: isCompact),
+                    _navItem(
+                      context, 
+                      icon: Icons.folder, 
+                      label: 'Projects', 
+                      selected: selectedIndex == 1, 
+                      isCompact: isCompact, 
+                      onTap: () => onSelect(1),
+                    ),
                     const Spacer(),
                     if (!isCompact && !isSmallHeight) 
                       _upgradeCard(context)
